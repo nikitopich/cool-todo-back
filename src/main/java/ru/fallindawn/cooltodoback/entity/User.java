@@ -17,12 +17,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_generator")
     private Long id;
 
-    @Column
-    private String name;
-
-    @Column
+    @Column(unique = true, nullable = false)
     private String login;
 
-    @Column
+    @Column(nullable = false)
+    private String password;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(name = "last_name")
+    private String surname;
+
+
 }

@@ -17,10 +17,11 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/save")
-    public UserDto saveUser(@RequestBody UserDto userDto) throws ValidationException {
+    @PostMapping("/register")
+    public ResponseEntity<String> saveUser(@RequestBody UserDto userDto) throws ValidationException {
         log.info("Handling save user: " + userDto);
-        return userService.saveUser(userDto);
+        userService.saveUser(userDto);
+        return ResponseEntity.ok("User is register!");
     }
 
     @GetMapping("/findAll")

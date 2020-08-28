@@ -9,9 +9,11 @@ public class UserConverter {
     public User fromUserDtoToUser(UserDto userDto) {
         return new User(
                 userDto.getId(),
-                userDto.getName(),
                 userDto.getLogin(),
-                userDto.getEmail()
+                userDto.getPassword(),
+                userDto.getEmail(),
+                userDto.getName(),
+                userDto.getSurname()
         );
     }
 
@@ -19,7 +21,9 @@ public class UserConverter {
         return UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
+                .surname(user.getSurname())
                 .login(user.getLogin())
+                .password(user.getPassword())
                 .email(user.getEmail())
                 .build();
     }

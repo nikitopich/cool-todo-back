@@ -13,6 +13,4 @@ public interface UserService {
     UserDto findByLogin(String login);
 
     List<UserDto> findAll();
-
-    boolean validateMail(String email) throws ValidationException;
 }
