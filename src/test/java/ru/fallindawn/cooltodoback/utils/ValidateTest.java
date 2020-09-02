@@ -1,9 +1,6 @@
 package ru.fallindawn.cooltodoback.utils;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import ru.fallindawn.cooltodoback.exception.ValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +24,4 @@ class ValidateTest {
         invalidEmailData.add(".@_@.");
     }
 
-    @Test
-    void validMailValidate() throws ValidationException {
-        for (String mail : validEmailData)
-            assertTrue(Validate.mail(mail));
-    }
-
-    @Test
-    void invalidMailValidate() throws ValidationException {
-        for (String mail : invalidEmailData)
-            assertFalse(Validate.mail(mail));
-    }
 }

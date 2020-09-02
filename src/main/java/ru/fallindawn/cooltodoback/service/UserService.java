@@ -1,16 +1,16 @@
 package ru.fallindawn.cooltodoback.service;
 
-import ru.fallindawn.cooltodoback.dto.UserDto;
-import ru.fallindawn.cooltodoback.exception.ValidationException;
+import ru.fallindawn.cooltodoback.entity.User;
 
-import java.util.List;
+import java.util.Set;
 
 public interface UserService {
-    UserDto saveUser(UserDto userDto) throws ValidationException;
+    void createUser(String login, String password, String email, Set<String> rolesStrings);
 
     void deleteUser(Long userId);
 
-    UserDto findByLogin(String login);
+    User findByLogin(String login);
 
-    List<UserDto> findAll();
+    User save(User user);
+
 }

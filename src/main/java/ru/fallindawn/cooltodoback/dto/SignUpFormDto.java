@@ -3,13 +3,14 @@ package ru.fallindawn.cooltodoback.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 @Builder
-public class UserDto {
-    private Long id;
-    private String name;
-    private String surname;
+public class SignUpFormDto {
     private String login;
-    private String password;
     private String email;
+    private Set<String> roles;
+    private String password;
+
 }
