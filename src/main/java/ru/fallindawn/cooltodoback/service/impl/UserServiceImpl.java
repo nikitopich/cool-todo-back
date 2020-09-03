@@ -38,16 +38,19 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     @Override
     public User save(User user) {
         return userRepository.save(user);
     }
 
+    @Transactional
     @Override
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
 
+    @Transactional
     @Override
     public User findByLogin(String login) {
         return userRepository.findByLoginIgnoreCase(login.trim())
