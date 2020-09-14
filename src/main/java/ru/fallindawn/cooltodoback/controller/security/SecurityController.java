@@ -1,5 +1,7 @@
 package ru.fallindawn.cooltodoback.controller.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.fallindawn.cooltodoback.dto.LoginFormDto;
 import ru.fallindawn.cooltodoback.dto.SignUpFormDto;
-import ru.fallindawn.cooltodoback.exception.UserRegistretionException;
+import ru.fallindawn.cooltodoback.exception.UserRegistrationException;
 import ru.fallindawn.cooltodoback.security.JwtProvider;
 import ru.fallindawn.cooltodoback.security.JwtResponse;
 import ru.fallindawn.cooltodoback.service.UserService;
@@ -17,6 +19,8 @@ import ru.fallindawn.cooltodoback.service.UserService;
 @RestController
 @RequestMapping("/")
 public class SecurityController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityController.class);
+
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final UserService userService;
@@ -35,8 +39,10 @@ public class SecurityController {
                     signUpFormDto.getPassword(),
                     signUpFormDto.getEmail(),
                     signUpFormDto.getRoles());
-        } catch (UserRegistretionException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (UserRegistrationException e) {
+            ResponseEntity<String> responseEntity = ResponseEntity.badRequest().body(e.getMessage());
+            LOGGER.debug(responseEntity.toString());
+            return responseEntity;
         }
         return ResponseEntity.ok("User registered successfully!");
     }

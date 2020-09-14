@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.fallindawn.cooltodoback.entity.User;
 import ru.fallindawn.cooltodoback.entity.security.Role;
 import ru.fallindawn.cooltodoback.entity.security.RoleName;
-import ru.fallindawn.cooltodoback.exception.UserRegistretionException;
+import ru.fallindawn.cooltodoback.exception.UserRegistrationException;
 import ru.fallindawn.cooltodoback.repository.RoleRepository;
 import ru.fallindawn.cooltodoback.repository.UserRepository;
 import ru.fallindawn.cooltodoback.service.UserService;
@@ -63,12 +63,12 @@ public class UserServiceImpl implements UserService {
 
     public void validateLogin(String login) {
         if (userRepository.existsByLogin(login))
-            throw new UserRegistretionException("User with this login already exist!");
+            throw new UserRegistrationException("User with this login already exist!");
     }
 
     public void validateMail(String email) {
         if (userRepository.existsByEmail(email))
-            throw new UserRegistretionException("User with this email already exist!");
+            throw new UserRegistrationException("User with this email already exist!");
     }
 
     private Set<Role> validateAndGetRegisteredRoles(Set<String> rolesStrings) {
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
         rolesStrings.forEach(roleString -> {
             RoleName registeredRoleName = extractRoleNameFromRoleString(roleString);
             Role registeredRole = roleRepository.findByName(registeredRoleName)
-                    .orElseThrow(() -> new UserRegistretionException("Could not find provided role by role name in the database"));
+                    .orElseThrow(() -> new UserRegistrationException("Could not find provided role by role name in the database"));
             registeredRoles.add(registeredRole);
         });
 
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
             case "user":
                 return RoleName.ROLE_USER;
             default:
-                throw new UserRegistretionException("Invalid role was given for registration");
+                throw new UserRegistrationException("Invalid role was given for registration");
         }
     }
 }
