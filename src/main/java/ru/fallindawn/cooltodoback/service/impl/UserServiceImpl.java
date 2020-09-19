@@ -1,6 +1,5 @@
 package ru.fallindawn.cooltodoback.service.impl;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import java.util.Set;
 
 @Service
 @Log
-@AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -36,6 +34,12 @@ public class UserServiceImpl implements UserService {
         User user = new User(trimmedLoginInLowerCase, passwordEncoder.encode(password), email);
         user.setRoles(validateAndGetRegisteredRoles(rolesStrings));
         userRepository.save(user);
+    }
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
