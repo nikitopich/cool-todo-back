@@ -35,4 +35,14 @@ public class TaskController {
     public List<Task> getAllUserTasks(@PathVariable String login) {
         return taskService.findAllTaskByUserName(login);
     }
+
+    @DeleteMapping("/delete_{id}")
+    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
+        try {
+            taskService.deleteTask(id);
+        } catch (Exception e) {
+            ResponseEntity.badRequest();
+        }
+        return ResponseEntity.ok(String.format("%d_task", id));
+    }
 }
