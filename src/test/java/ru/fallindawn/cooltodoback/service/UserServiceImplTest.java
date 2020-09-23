@@ -1,9 +1,7 @@
 package ru.fallindawn.cooltodoback.service;
 
-import org.easymock.EasyMockRule;
 import org.easymock.TestSubject;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,15 +12,15 @@ import ru.fallindawn.cooltodoback.repository.RoleRepository;
 import ru.fallindawn.cooltodoback.repository.UserRepository;
 import ru.fallindawn.cooltodoback.service.impl.UserServiceImpl;
 
-import java.util.HashSet;
+import java.util.Optional;
 
-import static java.util.Arrays.asList;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(UnitilsBlockJUnit4ClassRunner.class)
 public class UserServiceImplTest {
+    public static final String USER = "user";
     @Mock
     UserRepository userRepository;
     @Mock
@@ -40,27 +38,22 @@ public class UserServiceImplTest {
 
     @Test
     public void findByLogin() {
-        expect(userRepository.findAll())
-                .andReturn(asList(
-                        user("alive"),
-                        user("death"),
-                        user("suicide")
-                ));
-        replay();
+        expect(userRepository.findByLoginIgnoreCase(USER))
+                .andReturn(Optional.of(user(USER)));
+        replay(userRepository);
 
-        User assertUser = userService.findByLogin("death");
+        User assertUser = userService.findByLogin(USER);
 
-        assertEquals(user("death").getLogin(),assertUser.getLogin());
+        assertEquals(USER,assertUser.getLogin());
     }
 
     // ===================================================================================================================
     // = Implementation
     // ===================================================================================================================
 
-    public User user(String login) {
-        User user = new User(login);
-        user.setRoles(new HashSet<>());
+    private User user(String login) {
+        User user = new User();
+        user.setLogin(login);
         return user;
     }
-
 }

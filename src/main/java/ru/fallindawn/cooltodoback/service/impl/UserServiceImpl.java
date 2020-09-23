@@ -3,6 +3,7 @@ package ru.fallindawn.cooltodoback.service.impl;
 import lombok.extern.java.Log;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.fallindawn.cooltodoback.entity.User;
 import ru.fallindawn.cooltodoback.entity.security.Role;
 import ru.fallindawn.cooltodoback.entity.security.RoleName;
@@ -12,7 +13,6 @@ import ru.fallindawn.cooltodoback.repository.UserRepository;
 import ru.fallindawn.cooltodoback.service.UserService;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +22,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Transactional
     @Override
@@ -34,12 +40,6 @@ public class UserServiceImpl implements UserService {
         User user = new User(trimmedLoginInLowerCase, passwordEncoder.encode(password), email);
         user.setRoles(validateAndGetRegisteredRoles(rolesStrings));
         userRepository.save(user);
-    }
-
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional

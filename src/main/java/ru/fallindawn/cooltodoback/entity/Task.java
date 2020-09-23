@@ -36,4 +36,9 @@ public class Task {
         this.deadline = deadline;
         this.ready = ready;
     }
+
+    public Task(User user, String name) {
+        this.user = user;
+        this.name = name;
+    }
 }
